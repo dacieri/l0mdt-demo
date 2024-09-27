@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import time
 
-st.set_page_config(layout="wide")
+st.set_page_config()
 
 st.title('ATLAS L0MDT Trigger Demo')
 
@@ -32,7 +32,11 @@ header_placeholder = st.empty()
 # Placeholder for image
 image_placeholder = st.empty()
 
-tnames = ["Step 0. Unfiltered Hits", "Step 1. Hits Filtered in Space and Time", "Step 2. Find Hits on Segment (Green)", "Step 3. Fit the Segment"]
+# tnames = ["Step 0. Unfiltered Hits", "Step 1. Hits Filtered in Space and Time", "Step 3. Fit the Segment"]
+tnames = ["Schritt 0. Ungefilterte Treffer", "Schritt 1. In Raum und Zeit gefilterte Treffer", "Schritt 3. Segment anpassen"]
+
+
+
 
 # Get current image name and path
 # current_image_name = images[st.session_state.image_index]
@@ -45,7 +49,7 @@ bnames = ["Filter the Hits in Time", "Filter the Hits in Space", "Identify the H
 current_button_name = bnames[st.session_state.image_index]
 
 # Button with the name of the next image
-if st.button(f"Next Event"):
+if st.button(f"Nächster Vorfall"):
     # Move to the next image in the current folder
     st.session_state.folder_index += 1
 
@@ -58,7 +62,7 @@ if st.button(f"Next Event"):
     st.rerun()
 
 # Start/Stop slideshow button
-if st.button("Start/Stop Slideshow"):
+if st.button("Start/Stopp Slideshow"):
     st.session_state.slideshow_active = not st.session_state.slideshow_active
 
 
@@ -67,15 +71,18 @@ if st.button("Start/Stop Slideshow"):
 
 
 with header_placeholder:
-    st.header(f"Event: {st.session_state.folder_index}")
+    st.header(f"Vorfall: {st.session_state.folder_index}")
 # Load and display the current image
 with image_placeholder:
     # image = Image.open()
     with st.container():
-        columns = st.columns(2, gap="medium", vertical_alignment='top')
-        for im in range(4):
-            with columns[im % 2]:
-                st.subheader(tnames[im])
+        # columns = st.columns(2, gap="medium", vertical_alignment='top')
+        for im in range(3):
+            # with columns[im % 2]:
+            st.subheader(tnames[im])
+            if im == 2:
+                st.image(current_event_path + "/mdt_3.png")
+            else:
                 st.image(current_event_path + "/mdt_%d.png" % im)
         # image = Image.open(current_event_path + "/mdt_1.png")
         # st.image(current_event_path + "/mdt_1.png")
