@@ -33,7 +33,7 @@ header_placeholder = st.empty()
 image_placeholder = st.empty()
 
 # tnames = ["Step 0. Unfiltered Hits", "Step 1. Hits Filtered in Space and Time", "Step 3. Fit the Segment"]
-tnames = ["Schritt 0. Ungefilterte Treffer", "Schritt 1. In Raum und Zeit gefilterte Treffer", "Schritt 3. Segment anpassen"]
+tnames = ["1. Ungefilterte Myon-Treffer", "2. Gefilterte Myon-Treffer", "3. Rekonstruierte Myon-Spur"]
 
 
 
@@ -49,7 +49,7 @@ bnames = ["Filter the Hits in Time", "Filter the Hits in Space", "Identify the H
 current_button_name = bnames[st.session_state.image_index]
 
 # Button with the name of the next image
-if st.button(f"Nächster Vorfall"):
+if st.button(f"Nächste Kollision"):
     # Move to the next image in the current folder
     st.session_state.folder_index += 1
 
@@ -71,7 +71,7 @@ if st.button("Start/Stopp Slideshow"):
 
 
 with header_placeholder:
-    st.header(f"Vorfall: {st.session_state.folder_index}")
+    st.header(f"Kollision: {st.session_state.folder_index}")
 # Load and display the current image
 with image_placeholder:
     # image = Image.open()
