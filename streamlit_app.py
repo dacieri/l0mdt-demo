@@ -101,10 +101,10 @@ with image_placeholder:
         # st.image(current_event_path + "/mdt_4.png")
 with bar_placeholder:
     if st.session_state.slideshow_active:
-        my_bar = st.progress(0, text="Moving to next event...")
+        my_bar = st.progress(0, text="Weiter zur nächsten Kollision...")
         for percentage_complete in range(100):
             time.sleep(0.1)
-            my_bar.progress(percentage_complete + 1, text="Moving to next event...")
+            my_bar.progress(percentage_complete + 1, text="Weiter zur nächsten Kollision...")
         # time.sleep(10)  # Wait for 10 seconds before moving to the next image
         st.session_state.folder_index += 1
         if st.session_state.folder_index >= len(events):
