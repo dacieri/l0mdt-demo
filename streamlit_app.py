@@ -1,6 +1,7 @@
 import streamlit as st
-from PIL import Image
 import os
+import time
+
 st.set_page_config(layout="wide")
 
 st.title('ATLAS L0MDT Trigger Demo')
@@ -10,6 +11,9 @@ if 'folder_index' not in st.session_state:
     st.session_state.folder_index = 0
 if 'image_index' not in st.session_state:
     st.session_state.image_index = 0
+if 'slideshow_active' not in st.session_state:
+    st.session_state.slideshow_active = True  # To track if slideshow is running
+
 
 # Define the folder structure and list of folders (events)
 base_dir = "images/"
@@ -28,7 +32,7 @@ header_placeholder = st.empty()
 # Placeholder for image
 image_placeholder = st.empty()
 
-tnames = ["Unfiltered Hits", "Hits Filtered in Time", "Hits Filtered in Space", "Hits on Segment (Green)", "Segment Fit"]
+tnames = ["Step 0. Unfiltered Hits", "Step 1. Hits Filtered in Space and Time", "Step 2. Find Hits on Segment (Green)", "Step 3. Fit the Segment"]
 
 # Get current image name and path
 # current_image_name = images[st.session_state.image_index]
@@ -53,15 +57,24 @@ if st.button(f"Next Event"):
     # Force rerun to update the UI with the new image immediately
     st.rerun()
 
+# Start/Stop slideshow button
+if st.button("Start/Stop Slideshow"):
+    st.session_state.slideshow_active = not st.session_state.slideshow_active
+
+
+# If slideshow is active, wait for 10 seconds and then move to the next event
+
+
+
 with header_placeholder:
     st.header(f"Event: {st.session_state.folder_index}")
 # Load and display the current image
 with image_placeholder:
     # image = Image.open()
     with st.container():
-        columns = st.columns(3, gap="medium", vertical_alignment='top')
-        for im in range(5):
-            with columns[im % 3]:
+        columns = st.columns(2, gap="medium", vertical_alignment='top')
+        for im in range(4):
+            with columns[im % 2]:
                 st.subheader(tnames[im])
                 st.image(current_event_path + "/mdt_%d.png" % im)
         # image = Image.open(current_event_path + "/mdt_1.png")
@@ -72,3 +85,13 @@ with image_placeholder:
         # st.image(current_event_path + "/mdt_3.png")
         # # image = Image.open(current_event_path + "/mdt_4.png")
         # st.image(current_event_path + "/mdt_4.png")
+if st.session_state.slideshow_active:
+    my_bar = st.progress(0, text="Moving to next event...")
+    for percentage_complete in range(100):
+        time.sleep(0.1)
+        my_bar.progress(percentage_complete + 1, text="Moving to next event...")
+    # time.sleep(10)  # Wait for 10 seconds before moving to the next image
+    st.session_state.folder_index += 1
+    if st.session_state.folder_index >= len(events):
+        st.session_state.folder_index = 0
+    st.rerun()  # Refresh the page
